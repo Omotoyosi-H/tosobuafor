@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You, Tofor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdf6e3;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 5px;
+            background-color: #ff99cc;
+            color: white;
+        }
+        footer {
+            font-size: 0.7rem;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdf6e3;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5rem;
+        }
+        #playlist, #gallery, #daily-note, #envelope, #qr-code {
+            margin: 40px 10%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        iframe {
+            width: 100%;
+            border: none;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .gallery img {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Realistic Envelope Style */
+        .envelope {
+            width: 800px; /* Bigger size */
+            height: 300px; /* Bigger size */
+            background: #f3f3f3;
+            border: 3px solid #7a7a7a; /* Darker border */
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            margin: 0 auto;
+            border-radius: 10px; /* Rounded edges */
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+            background: linear-gradient(145deg, #ffffff, #e0e0e0); /* Slight gradient */
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 50px; /* Taller flap */
+            background: #FD5DA8;
+            border: 2px solid #7a7a7a; /* Darker border */
+            transition: transform 0.3s ease-in-out;
+            border-radius: 10px 10px 0 0; /* Rounded top edges */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); /* Flap shadow */
+        }
+
+        .letter {
+            display: none;
+            padding: 20px;
+            background: #fff;
+            margin-top: 50px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px; /* Rounded letter edges */
+            font-family: 'Georgia', serif; /* Elegant font for the letter */
+            color: #555;
+        }
+
+        .letter p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: black;
+        }
+
+        /* Envelope Text - "My Tofor" */
+        .envelope-text {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: black; /* Pink color */
+            font-family: 'Georgia', serif; /* Elegant font for the letter */
+            transition: opacity 0.3s ease; /* Smooth disappearing */
+        }
+
+        .jar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            background-color: #f8e6f3;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .jar button {
+            background-color: #ff99cc;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        .jar button:hover {
+            background-color: #ff66b2;
+        }
+
+        #qr-code img {
+            width: 150px;
+            margin: 0 auto;
+            display: block;
+        }
+
+/* Carousel container styling */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Adjust the max width for your needs */
+    margin: auto;
+    overflow: hidden;
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Carousel image styling */
+.carousel {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+}
+
+.carousel img {
+    width: 100%; /* Ensure each image fills the container */
+    height: auto;
+    border-radius: 10px; /* Rounded corners for each image */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow around images */
+}
+
+/* Navigation buttons */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 2rem;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.prev {
+    left: 7px;
+}
+
+.next {
+    right: 7px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>A Little Something For You, My Darling 💖</h1>
+    </header>
+    
+    <section id="playlist">
+        <h2>Playlist (My Heart Sings For You)</h2>
+        <iframe 
+    style="width: 100%; height: 450px; border: none;" 
+    src="https://embed.music.apple.com/ng/playlist/for-tofor/pl.u-RRbVYrNF3GB2v4b" 
+    allow="autoplay" 
+    allowtransparency="true">
+        </iframe>
+
+    </section>
+
+    <section id="gallery">
+        <h2>Look What A Hot Body Can Do 📸</h2>
+        <div class="carousel-container">
+            <div class="carousel">
+                <img src="tofor1.jpg" alt="Memory 1">
+                <img src="tofor2.jpg" alt="Memory 2">
+                <img src="tofor3.jpg" alt="Memory 3">
+                <img src="tofor4.jpg" alt="Memory 4">
+                <img src="tofor5.jpg" alt="Memory 5">
+                <img src="tofor6.jpg" alt="Memory 6">
+            </div>
+            <!-- Navigation buttons -->
+            <button class="prev" onclick="moveSlide(-1)">❮</button>
+            <button class="next" onclick="moveSlide(1)">❯</button>
+        </div>
+    </section>    
+
+    <section id="daily-note">
+        <h2>Sweet Notes For Tofor 💌</h2>
+        <div class="jar">
+            <div id="note">Click the button for random notes</div>
+            <button onclick="shuffleNote()">Shuffle & Pick </button>
+        </div>
+    </section>
+
+    <section id="envelope">
+        <h2>A Letter For My sweet Girl…(Click the envelope to open)</h2>
+        <div class="envelope" onclick="toggleEnvelope()">
+            <div class="envelope-flap"></div>
+            <div class="letter" id="letterContent">
+                <p>My Gorgeous Girl,</p>
+                <p>Below Are Some Of The Reasons I Like You.</p>
+                <p>I like you because you make me happy and inspire me to be a better person.</p>
+                <p>You care for me deeply and make me feel safe. You are adorable, special, more than words can capture</p>
+                <p>You are thoughtful, intelligent both mentally and emotionally, and you have such a big heart.</p>
+                <p>Simply put, i like you because you bring me peace in my chos, light in my low moments, and you always make me feel seen and special.</p>
+                <p>-Your Girl, Omoshalewa.</p>
+            </div>
+            <div class="envelope-text" id="envelopeText">My Tofor 💖</div> <!-- "My Tofor" text added -->
+        </div>
+    </section>
+
+    <section id="qr-code">
+        <h2>A List Of Movies To Watch With My Baby</h2>
+        <li> Handmaid's Tale ✅</li>
+        <li> A League Of Their Own ✅</li>
+        <li> This Is Us ✅</li>
+        <li> Beyond The Lights ✅</li>
+    </section>
+    <footer>
+        - Omoshalewa (x_x)
+    </footer>
+
+    <script>
+        // Daily Notes Jar Logic
+        const notes = [
+            "You are my sunshine, my only sunshine",
+            "You are Special",
+            "Every day with you is special 💕",
+            "You are a Star",
+            "Can't wait to see your face again",
+            "Missing you is an understatement",
+            "You're a whole vibe",
+            "You are pure awesomeness in human form",
+            "You light up the room just by walking in",
+            "I'm constantly in awe of you",
+            "You're my favorite comedian",
+            "My heart smiles every time I see you",
+            "You're the happiest part of my day",
+            "You make my world a little sweeter",
+            "Until 2+2+2 = 9, only then can you quantify how much i miss you",
+            "I can't wait for our next adventure together"
+        ];
+
+        function shuffleNote() {
+            const randomIndex = Math.floor(Math.random() * notes.length);
+            document.getElementById('note').innerHTML = notes[randomIndex];
+        }
+        let index = 0; // Start at the first image
+
+function moveSlide(step) {
+    const images = document.querySelectorAll('.carousel img');
+    index += step;
+
+    // Loop around if we reach the end or the beginning
+    if (index < 0) index = images.length - 1;
+    if (index >= images.length) index = 0;
+
+    // Move the carousel by adjusting the transform property
+    document.querySelector('.carousel').style.transform = `translateX(-${index * 100}%)`;
+}
+
+        // Envelope Animation Logic
+        let envelopeOpen = false;
+
+        function toggleEnvelope() {
+            if (envelopeOpen) {
+                document.querySelector('.envelope-flap').style.transform = 'rotateX(0deg)';
+                document.getElementById('letterContent').style.display = 'none';
+                document.getElementById('envelopeText').style.opacity = '1'; // "My Tofor" reappears
+            } else {
+                document.querySelector('.envelope-flap').style.transform = 'rotateX(180deg)';
+                document.getElementById('letterContent').style.display = 'block';
+                document.getElementById('envelopeText').style.opacity = '0'; // "My Tofor" disappears
+            }
+            envelopeOpen = !envelopeOpen;
+        }
+    </script>
+</body>
+</html>
